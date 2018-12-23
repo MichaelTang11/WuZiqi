@@ -3,7 +3,7 @@ import logging
 import tornado.web
 from Methods.GetInitData import getInitData
 
-#上线时需要将注释部分取消
+#TODO(Michael):上线时需要将注释部分取消
 class GetInitDataHandler(tornado.web.RequestHandler):
     def get(self, *args, **kwargs):
         #获取用户id
