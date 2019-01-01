@@ -29,11 +29,11 @@ def getInitData(user_id):
         for j in range(0, row_number):
             temp = {}
             row = cursor.fetchone()
-            temp["friend_id"] = row["friend_id"]
+            temp["friendId"] = row["friend_id"]
             temp["avatar"] = row["avatar"]
-            temp["friend_username"] = row["friend_username"]
+            temp["friendUsername"] = row["friend_username"]
             temp["note"] = row["note"]
-            temp["login_state"] = row["login_state"]
+            temp["loginState"] = row["login_state"]
             temp["state"] = row["state"]
             groupListData.append(temp)
         friendInfo[group_name] = groupListData

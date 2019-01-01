@@ -1,6 +1,9 @@
 from Handlers.Home.AddGroupHandler import AddGroupHandler
 from Handlers.Home.CheckLoginStatusHandler import CheckLoginStatusHandler
+from Handlers.Home.DeleteGroupHandler import DeleteGroupHandler
 from Handlers.Home.GetInitDataHandler import GetInitDataHandler
+from Handlers.Home.ModifyNoteHandler import ModifyNoteHandler
+from Handlers.Home.MoveToGroupHandler import MoveToGroupHandler
 from Handlers.Login.CheckCodeHandler import CheckCodeHandler
 from Handlers.Login.CheckUserHandler import CheckUserHandler
 from Handlers.Login.LoginHandler import LoginHandler
@@ -21,6 +24,9 @@ url = {
     (r'/ResetPassword', ResetPasswordHandler),
     (r'/GetInitData', GetInitDataHandler),
     (r'/AddGroup', AddGroupHandler),
+    (r'/MoveToGroup', MoveToGroupHandler),
+    (r'/ModifyNote', ModifyNoteHandler),
+    (r'/DeleteGroup', DeleteGroupHandler),
     (r'/TestHandler', TestHandler)
 
 }
