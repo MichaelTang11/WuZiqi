@@ -4,6 +4,7 @@ import tornado.web
 from Methods.ConnectDB import con
 from Methods.ConnectDB import cursor
 
+
 class LoginHandler(tornado.web.RequestHandler):
     def post(self, *args, **kwargs):
         username = self.get_argument("username")

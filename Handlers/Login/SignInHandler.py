@@ -3,6 +3,7 @@ import logging
 from Methods.ConnectDB import con
 from Methods.ConnectDB import cursor
 import hashlib
+import time
 
 class SignInHandler(tornado.web.RequestHandler):
     def post(self, *args, **kwargs):
@@ -17,6 +18,11 @@ class SignInHandler(tornado.web.RequestHandler):
             cursor.execute("INSERT INTO user(username,code,email) VALUES(%s,%s,%s)", (username, code2, email))
             self.write("{'status':'00'}")
             logging.info("用户:" + username + "注册成功！")
+            cursor.execute("SELECT user_id FROM user WHERE username=%s",username)
+            row=cursor.fetchone()
+            userId=row["user_id"]
+            cursor.execute("INSERT INTO user_info(user_id,register_date) values (%s,%s)",(userId,time.strftime('%Y-%m-%d',time.localtime())))
+            logging.info("用户id:" + userId + "插入user_info表成功")
         else:
             self.write("{'status':'01'}")
             logging.info("用户:" + username + "注册失败！")
