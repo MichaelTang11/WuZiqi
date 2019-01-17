@@ -16,7 +16,3 @@ class ModifyUserInfoHandler(tornado.web.RequestHandler):
                        (sex, birthday, qq, userId))
         cursor.execute("UPDATE user SET email=%s WHERE user_id=%s", (email, userId))
         logging.info("用户:" + userId + "信息更新成功！")
-        self.set_header('Access-Control-Allow-Origin', '*')
-        self.set_header('Access-Control-Allow-Headers', 'x-requested-with')
-        self.set_header('Access-Control-Allow-Methods', 'POST, GET, PUT, DELETE')
-        self.write("{'status':1}")
