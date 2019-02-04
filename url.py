@@ -1,8 +1,14 @@
+from Handlers.Home.AddFriendHandler import AddFriendHandler
 from Handlers.Home.AddGroupHandler import AddGroupHandler
+from Handlers.Home.AgreeAddFriendHandler import AgreeAddFriendHandler
 from Handlers.Home.CheckLoginStatusHandler import CheckLoginStatusHandler
+from Handlers.Home.DeleteFriendHandler import DeleteFriendHandler
 from Handlers.Home.DeleteGroupHandler import DeleteGroupHandler
+from Handlers.Home.DenyAddFriendHandler import DenyAddFriendHandler
 from Handlers.Home.GetInitDataHandler import GetInitDataHandler
+from Handlers.Home.HomeWebSocketHandler import HomeWebSocketHandler
 from Handlers.Home.ModifyNoteHandler import ModifyNoteHandler
+from Handlers.Home.ModifyUserAvatarHandler import ModifyUserAvatarHandler
 from Handlers.Home.ModifyUserInfoHandler import ModifyUserInfoHandler
 from Handlers.Home.MoveToGroupHandler import MoveToGroupHandler
 from Handlers.Login.CheckCodeHandler import CheckCodeHandler
@@ -13,6 +19,7 @@ from Handlers.Login.SendCodeHandler import SendCodeHandler
 from Handlers.Login.SignInHandler import SignInHandler
 from Handlers.Main.MainHandler import MainHandler
 from Handlers.Main.TestHandler import TestHandler
+from Handlers.ProfilePage.GetUserProfileHandler import GetUserProfileHandler
 from Handlers.SettingPage.GetUserInfoHandler import GetUserInfoHandler
 
 url = {
@@ -33,8 +40,16 @@ url = {
     (r'/ModifyNote', ModifyNoteHandler),
     (r'/DeleteGroup', DeleteGroupHandler),
     (r'/ModifyUserInfo', ModifyUserInfoHandler),
+    (r'/ModifyUserAvatar', ModifyUserAvatarHandler),
+    (r'/AddFriend', AddFriendHandler),
+    (r'/AgreeAddFriend', AgreeAddFriendHandler),
+    (r'/DenyAddFriend', DenyAddFriendHandler),
+    (r'/DeleteFriend', DeleteFriendHandler),
+    (r'/HomeWebSocket', HomeWebSocketHandler),
     #SettingPage页面路由
     (r'/GetUserInfo', GetUserInfoHandler),
+    #ProfilePage页面路由
+    (r'/GetUserProfile', GetUserProfileHandler),
     #测试路由
     (r'/TestHandler', TestHandler)
 
