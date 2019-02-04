@@ -11,7 +11,7 @@ class ModifyUserAvatarHandler(tornado.web.RequestHandler):
         for image in images:
             searchObj =re.search('\.\S*',image['filename'])
             fileType=searchObj.group()
-            savePath='D:/WebstormProjects/wuziqi_frontEnd/assets/images/avatars/user'+userId+fileType
+            savePath='/webRoot/wuziqi/assets/images/avatars/user'+userId+fileType
             with open(savePath,'wb') as f:
                 f.write(image['body'])
             cursor.execute("UPDATE user_info SET avatar=%s WHERE user_id=%s",('assets/images/avatars/user'+userId+fileType,userId))
