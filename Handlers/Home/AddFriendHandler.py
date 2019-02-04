@@ -3,11 +3,9 @@ import tornado.web
 from Methods.ConnectDB import cursor
 
 
-# TODO(Michael)上线时删除注释,更改保存路径
 class AddFriendHandler(tornado.web.RequestHandler):
     def post(self, *args, **kwargs):
-        # userId=self.get_secure_cookie("user_id").decode("utf-8")
-        userId = "1"
+        userId=self.get_secure_cookie("user_id").decode("utf-8")
         username=self.get_argument("username")
         self.set_header('Access-Control-Allow-Origin', '*')
         self.set_header('Access-Control-Allow-Headers', 'x-requested-with')
