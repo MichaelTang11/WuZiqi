@@ -1,5 +1,5 @@
 import random
-import Methods
+import Methods.SendEmail
 from GlobalValue.GlobalValue import CodeCash
 from Methods.ConnectDB import cursor
 import logging
