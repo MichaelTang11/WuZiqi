@@ -1,5 +1,5 @@
 import random
-import Methods.SendEmail
+from Methods import SendEmail
 from GlobalValue.GlobalValue import CodeCash
 from Methods.ConnectDB import cursor
 import logging
@@ -16,6 +16,6 @@ class SendCodeHandler(tornado.web.RequestHandler):
         address = row["email"]
         # 将验证码以 用户名：验证码 的形式写入CodeCash
         CodeCash[username] = randomString
-        Methods.SendEmail.Send(randomString, address, username)
+        SendEmail.Send(randomString, address, username)
         logging.info("用户:" + username + "发送验证码！")
         self.write({"status": "00"})
