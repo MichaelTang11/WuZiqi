@@ -22,7 +22,7 @@ class SignInHandler(tornado.web.RequestHandler):
             row=cursor.fetchone()
             userId=row["user_id"]
             cursor.execute("INSERT INTO user_info(user_id,register_date) values (%s,%s)",(userId,time.strftime('%Y-%m-%d',time.localtime())))
-            logging.info("用户id:" + userId + "插入user_info表成功")
+            logging.info("用户id:" + str(userId) + "插入user_info表成功")
         else:
             self.write("{'status':'01'}")
             logging.info("用户:" + username + "注册失败！")
