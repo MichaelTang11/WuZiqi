@@ -1,6 +1,7 @@
 import logging
 import tornado.web
 from Methods.ConnectDB import cursor
+from GlobalValue.GlobalValue import HomeSocketCash
 
 
 # TODO(Michael)上线时删除注释
@@ -14,6 +15,8 @@ class DeleteFriendHandler(tornado.web.RequestHandler):
         row=cursor.fetchone()
         oprId=row["opr_id"]
         cursor.execute("DELETE FROM friend_info WHERE opr_id=%s",oprId)
+        if friendId in HomeSocketCash.keys():
+            HomeSocketCash[friendId].refreshFriendList()
         logging.info("用户:" + userId + "删除好友！" )
         self.set_header('Access-Control-Allow-Origin', '*')
         self.set_header('Access-Control-Allow-Headers', 'x-requested-with')

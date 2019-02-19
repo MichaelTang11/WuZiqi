@@ -7,10 +7,12 @@ from Handlers.Home.DeleteGroupHandler import DeleteGroupHandler
 from Handlers.Home.DenyAddFriendHandler import DenyAddFriendHandler
 from Handlers.Home.GetInitDataHandler import GetInitDataHandler
 from Handlers.Home.HomeWebSocketHandler import HomeWebSocketHandler
+from Handlers.Home.LogoutHandler import LogoutHandler
 from Handlers.Home.ModifyNoteHandler import ModifyNoteHandler
 from Handlers.Home.ModifyUserAvatarHandler import ModifyUserAvatarHandler
 from Handlers.Home.ModifyUserInfoHandler import ModifyUserInfoHandler
 from Handlers.Home.MoveToGroupHandler import MoveToGroupHandler
+from Handlers.Home.SitDownHandler import SitDownHandler
 from Handlers.Login.CheckCodeHandler import CheckCodeHandler
 from Handlers.Login.CheckUserHandler import CheckUserHandler
 from Handlers.Login.LoginHandler import LoginHandler
@@ -33,6 +35,8 @@ url = {
     (r'/SendCode', SendCodeHandler),
     (r'/CheckCode', CheckCodeHandler),
     (r'/ResetPassword', ResetPasswordHandler),
+    #退出登录路由
+    (r'/Logout', LogoutHandler),
     #home页面路由
     (r'/GetInitData', GetInitDataHandler),
     (r'/AddGroup', AddGroupHandler),
@@ -46,6 +50,7 @@ url = {
     (r'/DenyAddFriend', DenyAddFriendHandler),
     (r'/DeleteFriend', DeleteFriendHandler),
     (r'/HomeWebSocket', HomeWebSocketHandler),
+    (r'/SitDown', SitDownHandler),
     #SettingPage页面路由
     (r'/GetUserInfo', GetUserInfoHandler),
     #ProfilePage页面路由
