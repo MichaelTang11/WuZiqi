@@ -4,7 +4,6 @@ from Methods.ConnectDB import cursor
 import random
 from GlobalValue.GlobalValue import HomeSocketCash
 
-
 # TODO(Michael)上线时删除注释
 # TODO(Michael)之后需要通过websocket刷新相应好友页面
 class AgreeAddFriendHandler(tornado.web.RequestHandler):
