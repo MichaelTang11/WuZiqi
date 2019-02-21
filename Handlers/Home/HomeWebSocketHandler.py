@@ -3,11 +3,13 @@ import logging
 from GlobalValue.GlobalValue import HomeSocketCash
 import json
 
+
+# TODO(Michael):上线时需要将注释部分取消
 class HomeWebSocketHandler(tornado.websocket.WebSocketHandler):
     def open(self, *args, **kwargs):
         # userId=self.get_secure_cookie("user_id").decode("utf-8")
         userId = "1"
-        HomeSocketCash[userId]=self
+        HomeSocketCash[userId] = self
 
     def on_message(self, message):
         logging.info(message)
@@ -22,8 +24,8 @@ class HomeWebSocketHandler(tornado.websocket.WebSocketHandler):
         return True
 
     def refreshFriendList(self):
-        returnData={}
-        returnData["type"]="01"
+        returnData = {}
+        returnData["type"] = "01"
         self.write_message(json.dumps(returnData, ensure_ascii=False))
 
     def refreshNotificationList(self):
@@ -36,9 +38,9 @@ class HomeWebSocketHandler(tornado.websocket.WebSocketHandler):
         returnData["type"] = "03"
         self.write_message(json.dumps(returnData, ensure_ascii=False))
 
-    def refreshGameTableList(self,refreshData):
+    def refreshGameTableList(self, refreshData):
         logging.info("刷新game-table")
         returnData = {}
         returnData["type"] = "04"
-        returnData["refreshData"]=refreshData
+        returnData["refreshData"] = refreshData
         self.write_message(json.dumps(returnData, ensure_ascii=False))

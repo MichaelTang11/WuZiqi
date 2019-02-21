@@ -17,7 +17,8 @@ class LoginHandler(tornado.web.RequestHandler):
         if row_number != 0:
             self.set_secure_cookie("user_id", str(row['user_id']), expires_days=None)
             self.write("{'status':'True'}")
-            cursor.execute("UPDATE user_info SET last_login_date =%s WHERE user_id=%s",(time.strftime('%Y-%m-%d',time.localtime()),str(row['user_id'])))
+            cursor.execute("UPDATE user_info SET last_login_date =%s WHERE user_id=%s",
+                           (time.strftime('%Y-%m-%d', time.localtime()), str(row['user_id'])))
             logging.info("用户:" + username + "登录成功！")
 
         else:

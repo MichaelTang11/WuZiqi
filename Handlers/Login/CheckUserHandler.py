@@ -3,6 +3,7 @@ from Methods.ConnectDB import cursor
 import tornado.web
 import logging
 
+
 class CheckUserHandler(tornado.web.RequestHandler):
     def post(self, *args, **kwargs):
         username = self.get_argument("username")

@@ -6,7 +6,9 @@ from Methods.ConnectDB import cursor
 # TODO(Michael)上线时删除注释
 class ModifyUserInfoHandler(tornado.web.RequestHandler):
     def post(self, *args, **kwargs):
-        userId=self.get_secure_cookie("user_id").decode("utf-8")
+        # 获取用户id
+        # user_id = self.get_secure_cookie('user_id').decode("utf-8")
+        userId = "1"
         birthday = self.get_argument("birthday")
         sex = self.get_argument("sex")
         email = self.get_argument("email")

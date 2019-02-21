@@ -8,6 +8,7 @@ from Handlers.Home.DenyAddFriendHandler import DenyAddFriendHandler
 from Handlers.Home.GetInitDataHandler import GetInitDataHandler
 from Handlers.Home.HomeWebSocketHandler import HomeWebSocketHandler
 from Handlers.Home.LogoutHandler import LogoutHandler
+from Handlers.Home.ModifyGroupNameHandler import ModifyGroupNameHandler
 from Handlers.Home.ModifyNoteHandler import ModifyNoteHandler
 from Handlers.Home.ModifyUserAvatarHandler import ModifyUserAvatarHandler
 from Handlers.Home.ModifyUserInfoHandler import ModifyUserInfoHandler
@@ -25,9 +26,9 @@ from Handlers.ProfilePage.GetUserProfileHandler import GetUserProfileHandler
 from Handlers.SettingPage.GetUserInfoHandler import GetUserInfoHandler
 
 url = {
-    #根目录跳转路由
-    (r'/',MainHandler),
-    #登陆页面路由
+    # 根目录跳转路由
+    (r'/', MainHandler),
+    # 登陆页面路由
     (r'/CheckLoginStatus', CheckLoginStatusHandler),
     (r'/Login', LoginHandler),
     (r'/SignIn', SignInHandler),
@@ -35,13 +36,14 @@ url = {
     (r'/SendCode', SendCodeHandler),
     (r'/CheckCode', CheckCodeHandler),
     (r'/ResetPassword', ResetPasswordHandler),
-    #退出登录路由
+    # 退出登录路由
     (r'/Logout', LogoutHandler),
-    #home页面路由
+    # home页面路由
     (r'/GetInitData', GetInitDataHandler),
     (r'/AddGroup', AddGroupHandler),
     (r'/MoveToGroup', MoveToGroupHandler),
     (r'/ModifyNote', ModifyNoteHandler),
+    (r'/ModifyGroupName', ModifyGroupNameHandler),
     (r'/DeleteGroup', DeleteGroupHandler),
     (r'/ModifyUserInfo', ModifyUserInfoHandler),
     (r'/ModifyUserAvatar', ModifyUserAvatarHandler),
@@ -51,11 +53,11 @@ url = {
     (r'/DeleteFriend', DeleteFriendHandler),
     (r'/HomeWebSocket', HomeWebSocketHandler),
     (r'/SitDown', SitDownHandler),
-    #SettingPage页面路由
+    # SettingPage页面路由
     (r'/GetUserInfo', GetUserInfoHandler),
-    #ProfilePage页面路由
+    # ProfilePage页面路由
     (r'/GetUserProfile', GetUserProfileHandler),
-    #测试路由
+    # 测试路由
     (r'/TestHandler', TestHandler)
 
 }

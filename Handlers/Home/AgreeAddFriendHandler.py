@@ -4,6 +4,7 @@ from Methods.ConnectDB import cursor
 import random
 from GlobalValue.GlobalValue import HomeSocketCash
 
+
 # TODO(Michael)上线时删除注释
 # TODO(Michael)之后需要通过websocket刷新相应好友页面
 class AgreeAddFriendHandler(tornado.web.RequestHandler):
@@ -12,8 +13,8 @@ class AgreeAddFriendHandler(tornado.web.RequestHandler):
         userId = "1"
         fromId = self.get_argument("fromId")
         oprId = random.randint(0, 999999)
-        oprId=str(oprId)
-        cursor.execute("DELETE FROM game_notification WHERE from_id=%s AND to_id=%s",(fromId,userId))
+        oprId = str(oprId)
+        cursor.execute("DELETE FROM game_notification WHERE from_id=%s AND to_id=%s", (fromId, userId))
         cursor.execute("SELECT * FROM group_info WHERE user_id=%s AND group_name='我的好友'", userId)
         row = cursor.fetchone()
         userDefaultGroupId = row["group_id"]

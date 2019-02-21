@@ -5,6 +5,7 @@ from Methods.ConnectDB import cursor
 import logging
 import tornado.web
 
+
 class SendCodeHandler(tornado.web.RequestHandler):
     def post(self, *args, **kwargs):
         username = self.get_argument("username")

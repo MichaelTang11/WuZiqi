@@ -17,4 +17,5 @@ class MoveToGroupHandler(tornado.web.RequestHandler):
         cursor.execute("UPDATE friend_info SET group_id=%s WHERE user_id=%s AND friend_id=%s",
                        (groupId, userId, friendId))
         logging.info("用户ID:" + userId + "移动好友ID:" + friendId + "至分组:" + groupName + "成功！")
-        self.write(json.dumps(getInitData(userId), ensure_ascii=False))
+        returnResult = {"status": "00"}
+        self.write(json.dumps(returnResult, ensure_ascii=False))

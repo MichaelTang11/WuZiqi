@@ -1,4 +1,4 @@
-#路由跳转handler
+# 路由跳转handler
 import logging
 import tornado.web
 
