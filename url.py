@@ -1,11 +1,14 @@
+from Handlers.Home.ActiveMessageFriendListItemHandler import ActiveMessageFriendListItemHandler
 from Handlers.Home.AddFriendHandler import AddFriendHandler
 from Handlers.Home.AddGroupHandler import AddGroupHandler
 from Handlers.Home.AgreeAddFriendHandler import AgreeAddFriendHandler
 from Handlers.Home.CheckLoginStatusHandler import CheckLoginStatusHandler
 from Handlers.Home.DeleteFriendHandler import DeleteFriendHandler
+from Handlers.Home.DeleteFriendListItemHandler import DeleteFriendListItemHandler
 from Handlers.Home.DeleteGroupHandler import DeleteGroupHandler
 from Handlers.Home.DenyAddFriendHandler import DenyAddFriendHandler
 from Handlers.Home.GetInitDataHandler import GetInitDataHandler
+from Handlers.Home.GetMessageListHandler import GetMessageListHandler
 from Handlers.Home.HomeWebSocketHandler import HomeWebSocketHandler
 from Handlers.Home.LogoutHandler import LogoutHandler
 from Handlers.Home.ModifyGroupNameHandler import ModifyGroupNameHandler
@@ -53,6 +56,9 @@ url = {
     (r'/DeleteFriend', DeleteFriendHandler),
     (r'/HomeWebSocket', HomeWebSocketHandler),
     (r'/SitDown', SitDownHandler),
+    (r'/GetMessageList', GetMessageListHandler),
+    (r'/ActiveMessageFriendListItem', ActiveMessageFriendListItemHandler),
+    (r'/DeleteFriendListItem', DeleteFriendListItemHandler),
     # SettingPage页面路由
     (r'/GetUserInfo', GetUserInfoHandler),
     # ProfilePage页面路由

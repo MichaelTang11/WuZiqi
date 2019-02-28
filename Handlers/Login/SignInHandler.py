@@ -26,6 +26,10 @@ class SignInHandler(tornado.web.RequestHandler):
                            (userId, time.strftime('%Y-%m-%d', time.localtime())))
             logging.info("用户id:" + str(userId) + "插入user_info表成功")
             cursor.execute("INSERT INTO group_info(user_id, group_name) VALUES (%s,%s)", (userId, "我的好友"))
+            viewName = "user_" + str(userId) + "_message"
+            cursor.execute(
+                "CREATE VIEW " + viewName + " AS SELECT a.from_id AS 'related_user',a.content,a.update_time,1 AS 'type' FROM message_info AS a WHERE a.to_id = %s UNION SELECT b.to_id AS 'related_user', b.content, b.update_time, 0 AS 'type' FROM message_info AS b WHERE b.from_id = %s",
+                (userId, userId))
         else:
             self.write("{'status':'01'}")
             logging.info("用户:" + username + "注册失败！")

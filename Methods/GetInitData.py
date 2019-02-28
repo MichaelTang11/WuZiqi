@@ -1,5 +1,6 @@
 # 获取初始数据方法
 from Methods.ConnectDB import cursor
+import Methods.GetMessageFriendList
 
 
 def getInitData(user_id):
@@ -60,14 +61,7 @@ def getInitData(user_id):
 
     # 组装messageData
     messageData = {}
-    messageFriendList = []
-    rowNumber = cursor.execute(
-        "SELECT a.user_id,a.friend_id,b.username,c.avatar FROM message_friend_list AS a LEFT JOIN user AS b ON a.friend_id=b.user_id LEFT JOIN user_info AS c ON b.user_id=c.user_id WHERE a.user_id=%s ORDER BY id",
-        user_id)
-    for i in range(0, rowNumber):
-        row = cursor.fetchone()
-        temp = {"friendId": row["friend_id"], "username": row["username"], "avatar": row["avatar"]}
-        messageFriendList.append(temp)
+    messageFriendList = Methods.GetMessageFriendList.getMessageFriendList(user_id)
     messageData["messageFriendList"] = messageFriendList
 
     returnData["userData"] = userData
