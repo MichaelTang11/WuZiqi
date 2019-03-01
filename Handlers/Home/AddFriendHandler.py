@@ -34,6 +34,7 @@ class AddFriendHandler(tornado.web.RequestHandler):
                     logging.info("write {'status':'03'}")
                     return
                 cursor.execute("INSERT INTO game_notification(`from_id`, `to_id`) VALUES (%s,%s)", (userId, toId))
+                toId=str(toId)
                 if toId in HomeSocketCash.keys():
                     HomeSocketCash[toId].refreshNotificationList()
                 self.write("{'status':'00'}")
