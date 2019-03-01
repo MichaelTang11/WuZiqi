@@ -19,8 +19,8 @@ class LoginHandler(tornado.web.RequestHandler):
             self.write("{'status':'True'}")
             cursor.execute("UPDATE user_info SET last_login_date =%s WHERE user_id=%s",
                            (time.strftime('%Y-%m-%d', time.localtime()), str(row['user_id'])))
+            cursor.execute("UPDATE user SET login_state=1,state=1 WHERE user_id=%s", str(row['user_id']))
             logging.info("用户:" + username + "登录成功！")
-
         else:
             self.write("{'status':'False'}")
             logging.info("用户:" + username + "登录失败！")
