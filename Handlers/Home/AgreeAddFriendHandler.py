@@ -22,6 +22,7 @@ class AgreeAddFriendHandler(tornado.web.RequestHandler):
                        (userId, fromId, userDefaultGroupId, oprId))
         cursor.execute("INSERT INTO friend_info (user_id, friend_id, group_id, opr_id) VALUES (%s,%s,%s,%s)",
                        (fromId, userId, fromDefaultGroupId, oprId))
+        fromId=str(fromId)
         if fromId in HomeSocketCash.keys():
             HomeSocketCash[fromId].refreshFriendList()
         logging.info("用户:" + userId + "好友添加成功！操作号" + oprId)
