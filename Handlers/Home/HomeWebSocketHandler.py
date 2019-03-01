@@ -7,19 +7,16 @@ import json
 import time
 
 
-# TODO(Michael):上线时需要将注释部分取消
 class HomeWebSocketHandler(tornado.websocket.WebSocketHandler):
     def open(self, *args, **kwargs):
-        # userId=self.get_secure_cookie("user_id").decode("utf-8")
-        userId = "1"
+        userId=self.get_secure_cookie("userId").decode("utf-8")
         HomeSocketCash[userId] = self
 
     def on_message(self, message):
         self.treatMessageData(message)
 
     def on_close(self):
-        # userId=self.get_secure_cookie("user_id").decode("utf-8")
-        userId = "1"
+        userId=self.get_secure_cookie("userId").decode("utf-8")
         del HomeSocketCash[userId]
 
     def check_origin(self, origin):
@@ -51,8 +48,7 @@ class HomeWebSocketHandler(tornado.websocket.WebSocketHandler):
 
     def treatMessageData(self, data):
         data = json.loads(data)
-        # userId=self.get_secure_cookie("user_id").decode("utf-8")
-        userId = "1"
+        userId=self.get_secure_cookie("userId").decode("utf-8")
         friendId = data["friendId"]
         message = data["message"]
 

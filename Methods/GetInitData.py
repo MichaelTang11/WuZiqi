@@ -3,21 +3,21 @@ from Methods.ConnectDB import cursor
 import Methods.GetMessageFriendList
 
 
-def getInitData(user_id):
+def getInitData(userId):
     returnData = {}
     userData = {}
     notificationData = []
     gameTableData = []
     # 获取userData
     cursor.execute("SELECT * FROM user AS a LEFT JOIN user_info AS b ON a.user_id=b.user_id WHERE a.user_id=%s",
-                   user_id)
+                   userId)
     row = cursor.fetchone()
     userData["username"] = row["username"]
     userData["avatar"] = row["avatar"]
     userData["ifFirstLogin"] = row["if_first_login"]
 
     # 从group_info表中获取此用户id下所有的用户分组存入groupNameList
-    row_number = cursor.execute("select * from group_info where user_id=%s ORDER BY group_id", user_id)
+    row_number = cursor.execute("select * from group_info where user_id=%s ORDER BY group_id", userId)
     friendInfo = {}
     groupNameList = []
     for i in range(0, row_number):
@@ -30,7 +30,7 @@ def getInitData(user_id):
         group_name = groupNameList[i]
         row_number = cursor.execute(
             "SELECT a.user_id,a.friend_id,d.avatar,c.username AS 'friend_username',a.note,c.login_state,c.state,a.group_id,b.group_name FROM friend_info AS a LEFT JOIN group_info AS b ON a.group_id = b.group_id LEFT JOIN user AS c ON a.friend_id = c.user_id LEFT JOIN user_info AS d on a.friend_id=d.user_id WHERE a.user_id = %s AND b.group_name= %s ORDER BY c.login_state DESC,c.username ASC",
-            (user_id, group_name))
+            (userId, group_name))
         for j in range(0, row_number):
             row = cursor.fetchone()
             temp = {"friendId": row["friend_id"], "avatar": row["avatar"], "friendUsername": row["friend_username"],
@@ -41,7 +41,7 @@ def getInitData(user_id):
     # 根据user_id获取notification
     row_number = cursor.execute(
         "SELECT a.from_id,b.username AS from_username,a.to_id,c.username AS to_username FROM game_notification AS a LEFT JOIN user AS b ON a.from_id = b.user_id LEFT JOIN user AS c ON a.to_id=c.user_id WHERE to_id=%s ORDER BY id",
-        user_id)
+        userId)
     for i in range(0, row_number):
         row = cursor.fetchone()
         temp = {"fromId": row["from_id"], "fromUsername": row["from_username"], "toId": row["to_id"],
@@ -61,7 +61,7 @@ def getInitData(user_id):
 
     # 组装messageData
     messageData = {}
-    messageFriendList = Methods.GetMessageFriendList.getMessageFriendList(user_id)
+    messageFriendList = Methods.GetMessageFriendList.getMessageFriendList(userId)
     messageData["messageFriendList"] = messageFriendList
 
     returnData["userData"] = userData

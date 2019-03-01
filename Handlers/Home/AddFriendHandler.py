@@ -4,15 +4,10 @@ from Methods.ConnectDB import cursor
 from GlobalValue.GlobalValue import HomeSocketCash
 
 
-# TODO(Michael)上线时删除注释
 class AddFriendHandler(tornado.web.RequestHandler):
     def post(self, *args, **kwargs):
-        # userId=self.get_secure_cookie("user_id").decode("utf-8")
-        userId = "1"
+        userId = self.get_secure_cookie("userId").decode("utf-8")
         username = self.get_argument("username")
-        self.set_header('Access-Control-Allow-Origin', '*')
-        self.set_header('Access-Control-Allow-Headers', 'x-requested-with')
-        self.set_header('Access-Control-Allow-Methods', 'POST, GET, PUT, DELETE')
         rowNumber = cursor.execute("SELECT * FROM user WHERE username=%s", username)
         if rowNumber == 0:
             self.write("{'status':'01'}")

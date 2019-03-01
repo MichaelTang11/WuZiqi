@@ -5,10 +5,9 @@ from Methods.ConnectDB import cursor
 from Methods.GetInitData import getInitData
 
 
-# TODO(Michael)上线时删除注释
 class MoveToGroupHandler(tornado.web.RequestHandler):
     def post(self, *args, **kwargs):
-        userId=self.get_secure_cookie("user_id").decode("utf-8")
+        userId = self.get_secure_cookie("userId").decode("utf-8")
         friendId = self.get_argument("friendId")
         groupName = self.get_argument("groupName")
         cursor.execute("SELECT  * FROM group_info WHERE user_id=%s AND group_name=%s", (userId, groupName))

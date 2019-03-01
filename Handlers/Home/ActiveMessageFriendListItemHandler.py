@@ -6,16 +6,11 @@ from Methods.GetMessageFriendList import getMessageFriendList
 from GlobalValue.GlobalValue import HomeSocketCash
 
 
-# TODO(Michael)上线时删除注释
 class ActiveMessageFriendListItemHandler(tornado.web.RequestHandler):
     def post(self, *args, **kwargs):
         # 获取用户id
-        # user_id = self.get_secure_cookie('user_id').decode("utf-8")
-        userId = "1"
+        userId = self.get_secure_cookie('userId').decode("utf-8")
         friendId = self.get_argument("friendId")
-        self.set_header('Access-Control-Allow-Origin', '*')
-        self.set_header('Access-Control-Allow-Headers', 'x-requested-with')
-        self.set_header('Access-Control-Allow-Methods', 'POST, GET, PUT, DELETE')
         # 获取messageFriendList
         messageFriendList = getMessageFriendList(userId)
         # 对送报的friendId进行校验

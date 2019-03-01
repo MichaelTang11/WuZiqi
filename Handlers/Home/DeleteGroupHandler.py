@@ -4,11 +4,9 @@ import json
 from Methods.ConnectDB import cursor
 
 
-# TODO(Michael):上线时需要将注释部分取消
 class DeleteGroupHandler(tornado.web.RequestHandler):
     def post(self, *args, **kwargs):
-        # userId=self.get_secure_cookie("user_id").decode("utf-8")
-        userId = '1'
+        userId=self.get_secure_cookie("userId").decode("utf-8")
         groupName = self.get_argument("groupName")
         # 获取输入的组名的组id
         cursor.execute("SELECT group_id FROM group_info WHERE user_id=%s AND  group_name=%s", (userId, groupName))
