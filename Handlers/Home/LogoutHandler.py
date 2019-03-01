@@ -1,5 +1,8 @@
+import json
 import logging
 import tornado.web
+
+from Methods.ConnectDB import cursor
 
 
 class LogoutHandler(tornado.web.RequestHandler):
