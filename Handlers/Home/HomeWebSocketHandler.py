@@ -71,10 +71,11 @@ class HomeWebSocketHandler(tornado.websocket.WebSocketHandler):
             flag=False
             for item in toMessageFriendList:
                 if str(item["friendId"]) == userId:
-                    cursor.execute(
-                        "UPDATE message_friend_list SET message_number=message_number+1 WHERE user_id=%s AND friend_id=%s",
-                        (friendId, userId))
-                    flag=True
+                    flag = True
+                    if item["activeState"]!=1:
+                        cursor.execute(
+                            "UPDATE message_friend_list SET message_number=message_number+1 WHERE user_id=%s AND friend_id=%s",
+                            (friendId, userId))
                     break
             if not flag:
                 cursor.execute(
