@@ -22,6 +22,7 @@ class HomeWebSocketHandler(tornado.websocket.WebSocketHandler):
     def on_close(self):
         userId=self.get_secure_cookie("userId").decode("utf-8")
         del HomeSocketCash[userId]
+        logging.info(userId+"关闭连接")
 
     def check_origin(self, origin):
         return True
@@ -65,17 +66,21 @@ class HomeWebSocketHandler(tornado.websocket.WebSocketHandler):
         if len(toMessageFriendList)==0:
             cursor.execute(
                 "INSERT INTO message_friend_list (USER_ID, FRIEND_ID, ACTIVE_STATE, MESSAGE_NUMBER)VALUES(%s,%s,%s,%s) ",
-                (friendId, userId, 0, 1))
+                (friendId, userId, 1, 1))
         else:
+            flag=False
             for item in toMessageFriendList:
                 if str(item["friendId"]) == userId:
                     cursor.execute(
                         "UPDATE message_friend_list SET message_number=message_number+1 WHERE user_id=%s AND friend_id=%s",
                         (friendId, userId))
-                else:
-                    cursor.execute(
-                        "INSERT INTO message_friend_list (USER_ID, FRIEND_ID, ACTIVE_STATE, MESSAGE_NUMBER)VALUES(%s,%s,%s,%s) ",
-                        (friendId, userId, 0, 1))
+                    flag=True
+                    break
+            if not flag:
+                cursor.execute(
+                    "INSERT INTO message_friend_list (USER_ID, FRIEND_ID, ACTIVE_STATE, MESSAGE_NUMBER)VALUES(%s,%s,%s,%s) ",
+                    (friendId, userId, 0, 1))
+
         #刷新toMessageFriendList
         toMessageFriendList = getMessageFriendList(friendId)
         #获取接收方消息窗口打开状态
@@ -89,10 +94,10 @@ class HomeWebSocketHandler(tornado.websocket.WebSocketHandler):
                 HomeSocketCash[str(friendId)].refreshMessageList(subType="04")
             else:
                 for item in toMessageFriendList:
-                    if item["friendId"]==userId and item["activeState"]==1:
+                    if str(item["friendId"])==userId and item["activeState"]==1:
                         HomeSocketCash[str(friendId)].refreshMessageList(subType="02",data=message)
                         break
-                    if item["friendId"]==userId and item["activeState"]!=1:
+                    if str(item["friendId"])==userId and item["activeState"]!=1:
                         HomeSocketCash[str(friendId)].refreshMessageList(subType="01")
                         HomeSocketCash[str(friendId)].refreshMessageList(subType="03")
                         break

@@ -10,7 +10,7 @@ class GetMessageListHandler(tornado.web.RequestHandler):
         friendId = self.get_argument("friendId")
         viewName = "user_" + str(userId) + "_message"
         rowNumber = cursor.execute(
-            "SELECT a.content,a.type FROM " + viewName + " AS a WHERE related_user=%s ORDER BY update_time", friendId)
+            "SELECT a.content,a.type FROM " + viewName + " AS a WHERE related_user=%s ORDER BY update_time LIMIT 30", friendId)
         returnData = []
         for i in range(0, rowNumber):
             row = cursor.fetchone()
