@@ -15,6 +15,7 @@ def getInitData(userId):
     userData["username"] = row["username"]
     userData["avatar"] = row["avatar"]
     userData["ifFirstLogin"] = row["if_first_login"]
+    userData["messageWidgetState"]=row["message_widget_state"]
 
     # 从group_info表中获取此用户id下所有的用户分组存入groupNameList
     row_number = cursor.execute("select * from group_info where user_id=%s ORDER BY group_id", userId)

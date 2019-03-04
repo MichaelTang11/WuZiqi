@@ -23,7 +23,7 @@ class ActiveMessageFriendListItemHandler(tornado.web.RequestHandler):
                 cursor.execute("UPDATE message_friend_list SET  active_state=0 WHERE user_id=%s AND friend_id!=%s;",
                                (userId, friendId))
                 cursor.execute(
-                    "UPDATE message_friend_list SET active_state=1,message_number=0 WHERE user_id=%s AND friend_id=%s;",
+                    "UPDATE message_friend_list SET active_state=1 WHERE user_id=%s AND friend_id=%s;",
                     (userId, friendId))
                 HomeSocketCash[userId].refreshMessageList(subType="01")
                 break

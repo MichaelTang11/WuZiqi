@@ -16,3 +16,4 @@ class GetMessageListHandler(tornado.web.RequestHandler):
             row = cursor.fetchone()
             returnData.append(row)
         self.write(json.dumps(returnData, ensure_ascii=False))
+        logging.info("用户:"+userId+"获取消息成功！")
