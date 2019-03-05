@@ -15,13 +15,12 @@ class LoginHandler(tornado.web.RequestHandler):
         row_number = cursor.execute("select * from user WHERE username=%s AND code = %s", (username, code2))
         row = cursor.fetchone()
         if row_number != 0:
-            self.set_secure_cookie("user_id", str(row['user_id']), expires_days=None)
+            self.set_secure_cookie("userId", str(row['user_id']), expires_days=None)
             self.write("{'status':'True'}")
             cursor.execute("UPDATE user_info SET last_login_date =%s WHERE user_id=%s",
                            (time.strftime('%Y-%m-%d', time.localtime()), str(row['user_id'])))
-            cursor.execute("UPDATE user SET login_state=1,state=1 WHERE user_id=%s",str(row['user_id']))
+            cursor.execute("UPDATE user SET login_state=1,state=1 WHERE user_id=%s", str(row['user_id']))
             logging.info("用户:" + username + "登录成功！")
-
         else:
             self.write("{'status':'False'}")
             logging.info("用户:" + username + "登录失败！")

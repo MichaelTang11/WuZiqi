@@ -23,8 +23,5 @@ class GetUserProfileHandler(tornado.web.RequestHandler):
         content["gameTime"] = row["game_time"]
         content["winTime"] = row["win_time"]
         returnResult["userProfile"] = content
-        self.set_header('Access-Control-Allow-Origin', '*')
-        self.set_header('Access-Control-Allow-Headers', 'x-requested-with')
-        self.set_header('Access-Control-Allow-Methods', 'POST, GET, PUT, DELETE')
         logging.info("获取用户:" + username + "信息成功！")
         self.write(json.dumps(returnResult, ensure_ascii=False))

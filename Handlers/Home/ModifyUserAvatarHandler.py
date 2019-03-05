@@ -4,11 +4,9 @@ from Methods.ConnectDB import cursor
 import re
 
 
-# TODO(Michael)上线时删除注释,更改保存路径
 class ModifyUserAvatarHandler(tornado.web.RequestHandler):
     def post(self, *args, **kwargs):
-        # user_id = self.get_secure_cookie('user_id').decode("utf-8")
-        userId = "1"
+        userId = self.get_secure_cookie('userId').decode("utf-8")
         images = self.request.files.get('avatar', None)
         for image in images:
             searchObj = re.search('\.\S*', image['filename'])

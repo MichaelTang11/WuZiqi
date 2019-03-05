@@ -4,11 +4,9 @@ from Methods.ConnectDB import cursor
 from GlobalValue.GlobalValue import HomeSocketCash
 
 
-# TODO(Michael):上线时需要将注释部分取消
 class SitDownHandler(tornado.web.RequestHandler):
     def post(self, *args, **kwargs):
-        # userId=self.get_secure_cookie("user_id").decode("utf-8")
-        userId = "1"
+        userId = self.get_secure_cookie("userId").decode("utf-8")
         oldTableId = None
         position = self.get_argument("position")
         tableId = self.get_argument("tableId")
@@ -18,9 +16,6 @@ class SitDownHandler(tornado.web.RequestHandler):
             sitDownState = False
         else:
             sitDownState = True
-        self.set_header('Access-Control-Allow-Origin', '*')
-        self.set_header('Access-Control-Allow-Headers', 'x-requested-with')
-        self.set_header('Access-Control-Allow-Methods', 'POST, GET, PUT, DELETE')
         if sitDownState:
             cursor.execute("SELECT * FROM game_table_info WHERE left_player_id=%s OR right_player_id=%s",
                            (userId, userId))

@@ -2,6 +2,7 @@ from Handlers.Home.ActiveMessageFriendListItemHandler import ActiveMessageFriend
 from Handlers.Home.AddFriendHandler import AddFriendHandler
 from Handlers.Home.AddGroupHandler import AddGroupHandler
 from Handlers.Home.AgreeAddFriendHandler import AgreeAddFriendHandler
+from Handlers.Home.ChangeMessageWidgetStateHandler import ChangeMessageWidgetStateHandler
 from Handlers.Home.CheckLoginStatusHandler import CheckLoginStatusHandler
 from Handlers.Home.DeleteFriendHandler import DeleteFriendHandler
 from Handlers.Home.DeleteFriendListItemHandler import DeleteFriendListItemHandler
@@ -59,6 +60,7 @@ url = {
     (r'/GetMessageList', GetMessageListHandler),
     (r'/ActiveMessageFriendListItem', ActiveMessageFriendListItemHandler),
     (r'/DeleteFriendListItem', DeleteFriendListItemHandler),
+    (r'/ChangeMessageWidgetState', ChangeMessageWidgetStateHandler),
     # SettingPage页面路由
     (r'/GetUserInfo', GetUserInfoHandler),
     # ProfilePage页面路由
