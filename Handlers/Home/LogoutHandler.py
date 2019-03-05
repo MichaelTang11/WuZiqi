@@ -1,8 +1,8 @@
 import json
 import logging
 import tornado.web
-from Methods.ConnectDB import cursor
 from GlobalValue.GlobalValue import HomeSocketCash
+from Methods.ConnectDB import cursor
 
 
 class LogoutHandler(tornado.web.RequestHandler):
