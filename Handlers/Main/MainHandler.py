@@ -5,8 +5,8 @@ import tornado.web
 
 class MainHandler(tornado.web.RequestHandler):
     def get(self):
-        user_id = self.get_secure_cookie('user_id')
-        if user_id:
+        userId = self.get_secure_cookie('userId')
+        if userId:
             self.redirect("Home.html")
             logging.info("redirect Home.html")
         else:
