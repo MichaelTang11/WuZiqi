@@ -18,6 +18,8 @@ class HomeWebSocketHandler(tornado.websocket.WebSocketHandler):
             self.treatMessageData(data)
         if data["type"] == "02":
             self.clearMessageNotice(data)
+        if data["type"] == "03":
+            self.mintainConnection()
 
     def on_close(self):
         userId = self.get_secure_cookie("userId").decode("utf-8")
@@ -27,16 +29,18 @@ class HomeWebSocketHandler(tornado.websocket.WebSocketHandler):
     def check_origin(self, origin):
         return True
 
+    # 通知前端刷新好友列表
     def refreshFriendList(self):
-        returnData = {}
-        returnData["type"] = "01"
+        returnData = {"type": "01"}
         self.write_message(json.dumps(returnData, ensure_ascii=False))
 
+    # 通知前端刷新通知列表
     def refreshNotificationList(self):
         returnData = {}
         returnData["type"] = "02"
         self.write_message(json.dumps(returnData, ensure_ascii=False))
 
+    # 刷新消息列表
     def refreshMessageList(self, **parm):
         returnData = {}
         returnData["type"] = "03"
@@ -44,6 +48,7 @@ class HomeWebSocketHandler(tornado.websocket.WebSocketHandler):
             returnData[key] = parm[key]
         self.write_message(json.dumps(returnData, ensure_ascii=False))
 
+    # 刷新游戏大厅桌面
     def refreshGameTableList(self, refreshData):
         logging.info("刷新game-table")
         returnData = {}
@@ -51,6 +56,7 @@ class HomeWebSocketHandler(tornado.websocket.WebSocketHandler):
         returnData["refreshData"] = refreshData
         self.write_message(json.dumps(returnData, ensure_ascii=False))
 
+    # 处理前端发送的消息
     def treatMessageData(self, data):
         userId = self.get_secure_cookie("userId").decode("utf-8")
         friendId = data["friendId"]
@@ -108,9 +114,18 @@ class HomeWebSocketHandler(tornado.websocket.WebSocketHandler):
                         HomeSocketCash[str(friendId)].refreshMessageList(subType="03")
                         break
 
+    # 前端通知后端刷新消息提醒数据库
     def clearMessageNotice(self, data):
         friendId = data["friendId"]
         userId = self.get_secure_cookie("userId").decode("utf-8")
         cursor.execute("UPDATE message_friend_list SET message_number=0 WHERE user_id=%s AND friend_id=%s",
                        (userId, friendId))
         self.refreshMessageList(subType="01")
+
+    # 心跳包处理
+    def mintainConnection(self):
+        userId = self.get_secure_cookie("userId").decode("utf-8")
+        returnData = {}
+        returnData["type"] = "05"
+        self.write_message(json.dumps(returnData, ensure_ascii=False))
+        logging.info("用户：" + userId + "发送心跳包")
