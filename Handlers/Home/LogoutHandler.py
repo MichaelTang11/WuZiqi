@@ -1,7 +1,7 @@
 import json
 import logging
 import tornado.web
-from GlobalValue.GlobalValue import HomeSocketCash
+from GlobalValue.GlobalValue import HomeSocketCache
 from Methods.ConnectDB import cursor
 
 
@@ -17,7 +17,10 @@ class LogoutHandler(tornado.web.RequestHandler):
                            (tableId, userId))
             cursor.execute("UPDATE game_table_info SET right_player_id=NULL WHERE table_id=%s AND right_player_id=%s",
                            (tableId, userId))
-        for key in HomeSocketCash:
-            HomeSocketCash[key].refreshFriendList()
+        for key in HomeSocketCache:
+            HomeSocketCache[key].refreshFriendList()
+        if tableId is not None:
+            for key in HomeSocketCache:
+                HomeSocketCache[key].refreshGameTableList()
         self.clear_all_cookies()
         logging.info("cookie清除成功！")

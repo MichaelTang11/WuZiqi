@@ -1,6 +1,6 @@
 import random
 from Methods import SendEmail
-from GlobalValue.GlobalValue import CodeCash
+from GlobalValue.GlobalValue import CodeCache
 from Methods.ConnectDB import cursor
 import logging
 import tornado.web
@@ -15,8 +15,8 @@ class SendCodeHandler(tornado.web.RequestHandler):
         cursor.execute("select * from user WHERE username=%s", username)
         row = cursor.fetchone()
         address = row["email"]
-        # 将验证码以 用户名：验证码 的形式写入CodeCash
-        CodeCash[username] = randomString
+        # 将验证码以 用户名：验证码 的形式写入CodeCache
+        CodeCache[username] = randomString
         SendEmail.Send(randomString, address, username)
         logging.info("用户:" + username + "发送验证码！")
         self.write({"status": "00"})

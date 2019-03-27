@@ -3,7 +3,7 @@ import tornado.web
 import logging
 from Methods.ConnectDB import cursor
 from Methods.GetMessageFriendList import getMessageFriendList
-from GlobalValue.GlobalValue import HomeSocketCash
+from GlobalValue.GlobalValue import HomeSocketCache
 
 
 class ActiveMessageFriendListItemHandler(tornado.web.RequestHandler):
@@ -25,7 +25,7 @@ class ActiveMessageFriendListItemHandler(tornado.web.RequestHandler):
                 cursor.execute(
                     "UPDATE message_friend_list SET active_state=1 WHERE user_id=%s AND friend_id=%s;",
                     (userId, friendId))
-                HomeSocketCash[userId].refreshMessageList(subType="01")
+                HomeSocketCache[userId].refreshMessageList(subType="01")
                 break
         if addFlag:
             cursor.execute("UPDATE message_friend_list SET  active_state=0 WHERE user_id=%s ",

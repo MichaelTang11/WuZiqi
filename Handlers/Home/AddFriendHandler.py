@@ -1,7 +1,7 @@
 import logging
 import tornado.web
 from Methods.ConnectDB import cursor
-from GlobalValue.GlobalValue import HomeSocketCash
+from GlobalValue.GlobalValue import HomeSocketCache
 
 
 class AddFriendHandler(tornado.web.RequestHandler):
@@ -30,8 +30,8 @@ class AddFriendHandler(tornado.web.RequestHandler):
                     return
                 cursor.execute("INSERT INTO game_notification(`from_id`, `to_id`) VALUES (%s,%s)", (userId, toId))
                 toId=str(toId)
-                if toId in HomeSocketCash.keys():
-                    HomeSocketCash[toId].refreshNotificationList()
+                if toId in HomeSocketCache.keys():
+                    HomeSocketCache[toId].refreshNotificationList()
                 self.write("{'status':'00'}")
                 logging.info("write {'status':'00'}")
             else:

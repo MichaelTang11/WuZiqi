@@ -2,7 +2,7 @@ import logging
 import tornado.web
 from Methods.ConnectDB import cursor
 import random
-from GlobalValue.GlobalValue import HomeSocketCash
+from GlobalValue.GlobalValue import HomeSocketCache
 
 
 class AgreeAddFriendHandler(tornado.web.RequestHandler):
@@ -23,8 +23,8 @@ class AgreeAddFriendHandler(tornado.web.RequestHandler):
         cursor.execute("INSERT INTO friend_info (user_id, friend_id, group_id, opr_id) VALUES (%s,%s,%s,%s)",
                        (fromId, userId, fromDefaultGroupId, oprId))
         fromId=str(fromId)
-        if fromId in HomeSocketCash.keys():
-            HomeSocketCash[fromId].refreshFriendList()
+        if fromId in HomeSocketCache.keys():
+            HomeSocketCache[fromId].refreshFriendList()
         logging.info("用户:" + userId + "好友添加成功！操作号" + oprId)
         logging.info("用户:" + fromId + "好友添加成功！操作号" + oprId)
         self.write("{'status':'00'}")

@@ -1,7 +1,7 @@
 import logging
 import tornado.web
 from Methods.ConnectDB import cursor
-from GlobalValue.GlobalValue import HomeSocketCash
+from GlobalValue.GlobalValue import HomeSocketCache
 from Methods.GetMessageFriendList import getMessageFriendList
 
 
@@ -43,9 +43,9 @@ class DeleteFriendHandler(tornado.web.RequestHandler):
                             (friendId, messageFriendList[key - 1]["friendId"]))
                         break
         cursor.execute("DELETE FROM message_friend_list WHERE user_id=%s AND friend_id=%s", (friendId, userId))
-        HomeSocketCash[userId].refreshMessageList(subType="04")
-        if friendId in HomeSocketCash.keys():
-            HomeSocketCash[friendId].refreshFriendList()
-            HomeSocketCash[friendId].refreshMessageList(subType="04")
+        HomeSocketCache[userId].refreshMessageList(subType="04")
+        if friendId in HomeSocketCache.keys():
+            HomeSocketCache[friendId].refreshFriendList()
+            HomeSocketCache[friendId].refreshMessageList(subType="04")
         logging.info("用户:" + userId + "删除好友！")
         self.write("{'status':'00'}")

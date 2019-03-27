@@ -1,3 +1,6 @@
+from Handlers.GameRoom.ExitGameRoomHandler import ExitGameRoomHandler
+from Handlers.GameRoom.GameRoomWebSocketHandler import GameRoomWebSocketHandler
+from Handlers.GameRoom.GetGameRoomDataHandler import GetGameRoomDataHandler
 from Handlers.Home.ActiveMessageFriendListItemHandler import ActiveMessageFriendListItemHandler
 from Handlers.Home.AddFriendHandler import AddFriendHandler
 from Handlers.Home.AddGroupHandler import AddGroupHandler
@@ -65,6 +68,10 @@ url = {
     (r'/GetUserInfo', GetUserInfoHandler),
     # ProfilePage页面路由
     (r'/GetUserProfile', GetUserProfileHandler),
+    # GameRoom页面路由
+    (r'/GetGameRoomData', GetGameRoomDataHandler),
+    (r'/GameRoomWebSocket', GameRoomWebSocketHandler),
+    (r'/ExitGameRoom', ExitGameRoomHandler),
     # 测试路由
     (r'/TestHandler', TestHandler)
 

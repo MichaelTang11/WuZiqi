@@ -1,6 +1,6 @@
 import tornado.websocket
 import logging
-from GlobalValue.GlobalValue import HomeSocketCash
+from GlobalValue.GlobalValue import HomeSocketCache
 from Methods.GetMessageFriendList import getMessageFriendList
 from Methods.ConnectDB import cursor
 import json
@@ -10,7 +10,8 @@ import time
 class HomeWebSocketHandler(tornado.websocket.WebSocketHandler):
     def open(self, *args, **kwargs):
         userId = self.get_secure_cookie("userId").decode("utf-8")
-        HomeSocketCash[userId] = self
+        HomeSocketCache[userId] = self
+        logging.info(userId + "打开连接")
 
     def on_message(self, message):
         data = json.loads(message)
@@ -19,11 +20,11 @@ class HomeWebSocketHandler(tornado.websocket.WebSocketHandler):
         if data["type"] == "02":
             self.clearMessageNotice(data)
         if data["type"] == "03":
-            self.mintainConnection()
+            self.maintainConnection()
 
     def on_close(self):
         userId = self.get_secure_cookie("userId").decode("utf-8")
-        del HomeSocketCash[userId]
+        del HomeSocketCache[userId]
         logging.info(userId + "关闭连接")
 
     def check_origin(self, origin):
@@ -48,7 +49,6 @@ class HomeWebSocketHandler(tornado.websocket.WebSocketHandler):
             returnData[key] = parm[key]
         self.write_message(json.dumps(returnData, ensure_ascii=False))
 
-    # 刷新游戏大厅桌面
     def refreshGameTableList(self, refreshData):
         logging.info("刷新game-table")
         returnData = {}
@@ -101,17 +101,17 @@ class HomeWebSocketHandler(tornado.websocket.WebSocketHandler):
         toMessageFriendList = getMessageFriendList(friendId)
         # 通知相应好友添加message
         # 判断接受方是否在线
-        if str(friendId) in HomeSocketCash.keys():
+        if str(friendId) in HomeSocketCache.keys():
             if messageWidgetState == 0:
-                HomeSocketCash[str(friendId)].refreshMessageList(subType="04")
+                HomeSocketCache[str(friendId)].refreshMessageList(subType="04")
             else:
                 for item in toMessageFriendList:
                     if str(item["friendId"]) == userId and item["activeState"] == 1:
-                        HomeSocketCash[str(friendId)].refreshMessageList(subType="02", data=message)
+                        HomeSocketCache[str(friendId)].refreshMessageList(subType="02", data=message)
                         break
                     if str(item["friendId"]) == userId and item["activeState"] != 1:
-                        HomeSocketCash[str(friendId)].refreshMessageList(subType="01")
-                        HomeSocketCash[str(friendId)].refreshMessageList(subType="03")
+                        HomeSocketCache[str(friendId)].refreshMessageList(subType="01")
+                        HomeSocketCache[str(friendId)].refreshMessageList(subType="03")
                         break
 
     # 前端通知后端刷新消息提醒数据库
@@ -123,7 +123,7 @@ class HomeWebSocketHandler(tornado.websocket.WebSocketHandler):
         self.refreshMessageList(subType="01")
 
     # 心跳包处理
-    def mintainConnection(self):
+    def maintainConnection(self):
         userId = self.get_secure_cookie("userId").decode("utf-8")
         returnData = {}
         returnData["type"] = "05"
