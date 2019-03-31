@@ -28,6 +28,7 @@ class HomeWebSocketHandler(tornado.websocket.WebSocketHandler):
     def on_close(self):
         userId = self.get_secure_cookie("userId").decode("utf-8")
         del HomeSocketCache[userId]
+        cursor.execute("UPDATE user SET login_state=0,state=0 WHERE user_id=%s", userId)
         logging.info(userId + "关闭连接")
 
     def check_origin(self, origin):
