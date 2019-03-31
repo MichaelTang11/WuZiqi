@@ -11,6 +11,9 @@ class HomeWebSocketHandler(tornado.websocket.WebSocketHandler):
     def open(self, *args, **kwargs):
         userId = self.get_secure_cookie("userId").decode("utf-8")
         HomeSocketCache[userId] = self
+        cursor.execute("UPDATE user_info SET last_login_date =%s WHERE user_id=%s",
+                       (time.strftime('%Y-%m-%d', time.localtime()), str(userId)))
+        cursor.execute("UPDATE user SET login_state=1,state=1 WHERE user_id=%s", str(userId))
         logging.info(userId + "打开连接")
 
     def on_message(self, message):

@@ -1,6 +1,8 @@
 from Handlers.GameRoom.ExitGameRoomHandler import ExitGameRoomHandler
 from Handlers.GameRoom.GameRoomWebSocketHandler import GameRoomWebSocketHandler
 from Handlers.GameRoom.GetGameRoomDataHandler import GetGameRoomDataHandler
+from Handlers.GameRoom.PutChessHandler import PutChessHandler
+from Handlers.GameRoom.ReadyHandler import ReadyHandler
 from Handlers.Home.ActiveMessageFriendListItemHandler import ActiveMessageFriendListItemHandler
 from Handlers.Home.AddFriendHandler import AddFriendHandler
 from Handlers.Home.AddGroupHandler import AddGroupHandler
@@ -72,7 +74,9 @@ url = {
     (r'/GetGameRoomData', GetGameRoomDataHandler),
     (r'/GameRoomWebSocket', GameRoomWebSocketHandler),
     (r'/ExitGameRoom', ExitGameRoomHandler),
+    (r'/Ready', ReadyHandler),
+    (r'/PutChess', PutChessHandler),
     # 测试路由
-    (r'/TestHandler', TestHandler)
+    (r'/Test', TestHandler)
 
 }

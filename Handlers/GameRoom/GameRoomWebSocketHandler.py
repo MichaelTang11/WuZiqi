@@ -41,7 +41,36 @@ class GameRoomWebSocketHandler(tornado.websocket.WebSocketHandler):
     # 心跳包处理
     def maintainConnection(self):
         userId = self.get_secure_cookie("userId").decode("utf-8")
-        returnData = {}
-        returnData["type"] = "00"
+        returnData = {"type": "01"}
         self.write_message(json.dumps(returnData, ensure_ascii=False))
         logging.info("用户：" + userId + "发送心跳包")
+
+    def gameStart(self):
+        logging.info("游戏开始")
+        returnData = {"type": "02"}
+        self.write_message(json.dumps(returnData, ensure_ascii=False))
+
+    def refreshPlayerStatus(self):
+        logging.info("刷新player-status")
+        returnData = {"type": "03"}
+        self.write_message(json.dumps(returnData, ensure_ascii=False))
+
+    def refreshGameView(self):
+        logging.info("刷新gameView")
+        returnData = {"type": "04"}
+        self.write_message(json.dumps(returnData, ensure_ascii=False))
+
+    def gameWin(self,playerId):
+        logging.info("决出胜者"+playerId)
+        returnData={"type": "05","winnerId":playerId}
+        self.write_message(json.dumps(returnData, ensure_ascii=False))
+
+    def gameDraw(self):
+        logging.info("游戏平局")
+        returnData={"type": "06"}
+        self.write_message(json.dumps(returnData, ensure_ascii=False))
+
+    def escapeGame(self):
+        logging.info("对手逃离")
+        returnData = {"type": "07"}
+        self.write_message(json.dumps(returnData, ensure_ascii=False))

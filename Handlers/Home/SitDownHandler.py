@@ -25,7 +25,7 @@ class SitDownHandler(tornado.web.RequestHandler):
             cursor.execute("SELECT * FROM game_table_info WHERE left_player_id=%s OR right_player_id=%s",
                            (userId, userId))
             row = cursor.fetchone()
-            if row["game_state"] == 1:
+            if row["game_state"]== 1 or (row["left_ready_state"]==1 and str(row["left_player_id"])==userId) or (row["right_ready_state"]==1 and str(row["right_player_id"])==userId):
                 self.write("{'status':'01'}")
                 # 已经处于游戏状态无法换桌
                 logging.info("write {'status':'01'}")
