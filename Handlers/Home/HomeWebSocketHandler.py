@@ -3,6 +3,7 @@ import logging
 from GlobalValue.GlobalValue import HomeSocketCache
 from Methods.GetMessageFriendList import getMessageFriendList
 from Methods.ConnectDB import cursor
+from Methods.RefreshRealtiveFriendList import refreshRelativeFriendList
 import json
 import time
 
@@ -15,6 +16,8 @@ class HomeWebSocketHandler(tornado.websocket.WebSocketHandler):
                        (time.strftime('%Y-%m-%d', time.localtime()), str(userId)))
         cursor.execute("UPDATE user SET login_state=1,state=1 WHERE user_id=%s", str(userId))
         logging.info(userId + "打开连接")
+        #刷新相关好友列表
+        refreshRelativeFriendList([userId])
 
     def on_message(self, message):
         data = json.loads(message)

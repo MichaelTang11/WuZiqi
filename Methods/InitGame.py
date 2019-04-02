@@ -3,6 +3,7 @@ from Methods.ConnectDB import cursor
 from GlobalValue.GlobalValue import HomeSocketCache
 from GlobalValue.GlobalValue import GameRoomSocketCache
 from GlobalValue.GlobalValue import GameRoomCache
+from Methods.RefreshRealtiveFriendList import refreshRelativeFriendList
 
 
 def initGame(tableId):
@@ -13,7 +14,10 @@ def initGame(tableId):
     row = cursor.fetchone()
     leftUserId = str(row["left_player_id"])
     rightUserId = str(row["right_player_id"])
-
+    #将两个玩家的state改为2游戏中
+    cursor.execute("UPDATE user SET state=2 WHERE user_id=%s OR user_id=%s", (leftUserId,rightUserId))
+    # 刷新相关好友列表
+    refreshRelativeFriendList([leftUserId,rightUserId])
     # 准备刷新数据
     rowNumber = cursor.execute(
         "SELECT a.table_id,a.left_player_id,c.username AS left_username,b.avatar AS left_avatar,a.right_player_id,e.username AS right_username,d.avatar AS right_avatar,a.game_state FROM game_table_info AS a LEFT join user_info AS b ON a.left_player_id=b.user_id LEFT JOIN  user AS c ON b.user_id=c.user_id LEFT JOIN user_info AS d ON a.right_player_id=d.user_id LEFT JOIN user AS e ON e.user_id=d.user_id WHERE a.table_id=%s",

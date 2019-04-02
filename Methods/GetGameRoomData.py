@@ -34,7 +34,7 @@ def getGameRoomData(tableId):
                 "LEFT JOIN `user` AS d ON a.right_player_id = d.user_id\n" + \
                 "LEFT JOIN user_info AS e ON d.user_id = e.user_id\n" + \
                 "WHERE\n" + \
-                "	table_id = %s"
+                "	a.table_id = %s"
     rowNumber = cursor.execute(sqlString, tableId)
     for i in range(0, rowNumber):
         row = cursor.fetchone()

@@ -19,7 +19,7 @@ def judgeWin(pointState, chess):
         tempY -= 1
     cTime = 0  # 循环次数初始化
     tempY = pointY
-    while tempY + 1 <= 15 and pointState[tempX][tempY + 1] == chessType and cTime < 5:
+    while tempY + 1 < 14 and pointState[tempX][tempY + 1] == chessType and cTime < 5:
         chessCount += 1
         cTime += 1
         tempY += 1
@@ -37,7 +37,7 @@ def judgeWin(pointState, chess):
         tempX -= 1
     cTime = 0  # 循环次数初始化
     tempX = pointX
-    while tempX + 1 <= 15 and pointState[tempX + 1][tempY] == chessType and cTime < 5:
+    while tempX + 1 < 14 and pointState[tempX + 1][tempY] == chessType and cTime < 5:
         chessCount += 1
         cTime += 1
         tempX += 1
@@ -49,7 +49,7 @@ def judgeWin(pointState, chess):
     cTime = 0  # 循环次数初始化
     tempX = pointX
     tempY = pointY
-    while tempX - 1 >= 0 and tempY - 1 <= 15 and pointState[tempX - 1][tempY - 1] == chessType and cTime < 5:
+    while tempX - 1 >= 0 and tempY - 1 < 14 and pointState[tempX - 1][tempY - 1] == chessType and cTime < 5:
         chessCount += 1
         cTime += 1
         tempX -= 1
@@ -57,7 +57,7 @@ def judgeWin(pointState, chess):
     cTime = 0  # 循环次数初始化
     tempX = pointX
     tempY = pointY
-    while tempX + 1 <= 15 and tempY + 1 <= 15 and pointState[tempX + 1][tempY + 1] == chessType and cTime < 5:
+    while tempX + 1 < 14 and tempY + 1 < 14 and pointState[tempX + 1][tempY + 1] == chessType and cTime < 5:
         chessCount += 1
         cTime += 1
         tempX += 1
@@ -70,7 +70,7 @@ def judgeWin(pointState, chess):
     cTime = 0  # 循环次数初始化
     tempX = pointX
     tempY = pointY
-    while tempX + 1 <= 15 and tempY - 1 >= 0 and pointState[tempX + 1][tempY - 1] == chessType and cTime < 5:
+    while tempX + 1 < 14 and tempY - 1 >= 0 and pointState[tempX + 1][tempY - 1] == chessType and cTime < 5:
         chessCount += 1
         cTime += 1
         tempX += 1
@@ -78,7 +78,7 @@ def judgeWin(pointState, chess):
     cTime = 0  # 循环次数初始化
     tempX = pointX
     tempY = pointY
-    while tempX - 1 >= 0 and tempY + 1 <= 15 and pointState[tempX - 1][tempY + 1] == chessType and cTime < 5:
+    while tempX - 1 >= 0 and tempY + 1 < 14 and pointState[tempX - 1][tempY + 1] == chessType and cTime < 5:
         chessCount += 1
         cTime += 1
         tempX -= 1

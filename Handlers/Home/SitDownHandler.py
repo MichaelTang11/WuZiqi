@@ -8,13 +8,14 @@ from GlobalValue.GlobalValue import GameRoomSocketCache
 class SitDownHandler(tornado.web.RequestHandler):
     def post(self, *args, **kwargs):
         userId = self.get_secure_cookie("userId").decode("utf-8")
-        oldTableId = self.get_secure_cookie("tableId")
+        cursor.execute("SELECT * FROM user WHERE user_id=%s", userId)
+        row = cursor.fetchone()
+        oldTableId = row["table_id"]
         position = self.get_argument("position")
         tableId = self.get_argument("tableId")
 
-        # 根据前端中的cookies值判断是否为坐下状态
+        # 根据数据库中的table_id值判断是否为坐下状态
         if oldTableId:
-            oldTableId = oldTableId.decode("utf-8")
             sitDownState = True
         else:
             sitDownState = False
@@ -25,12 +26,12 @@ class SitDownHandler(tornado.web.RequestHandler):
             cursor.execute("SELECT * FROM game_table_info WHERE left_player_id=%s OR right_player_id=%s",
                            (userId, userId))
             row = cursor.fetchone()
-            if row["game_state"]== 1 or (row["left_ready_state"]==1 and str(row["left_player_id"])==userId) or (row["right_ready_state"]==1 and str(row["right_player_id"])==userId):
+            if row["game_state"] == 1 or (row["left_ready_state"] == 1 and str(row["left_player_id"]) == userId) or (
+                    row["right_ready_state"] == 1 and str(row["right_player_id"]) == userId):
                 self.write("{'status':'01'}")
                 # 已经处于游戏状态无法换桌
                 logging.info("write {'status':'01'}")
                 return
-            # 将tableId进行utf8编码
             # 将旧卓的信息删除
             if str(row["left_player_id"]) == userId:
                 cursor.execute("UPDATE game_table_info SET left_player_id=NULL WHERE table_id=%s", oldTableId)
@@ -62,8 +63,8 @@ class SitDownHandler(tornado.web.RequestHandler):
             refreshData.append(temp)
         for key in HomeSocketCache:
             HomeSocketCache[key].refreshGameTableList(refreshData)
-        #设置cookie及返回值
-        self.set_secure_cookie("tableId", tableId)
+        # 设值数据库中的table_id及返回值
+        cursor.execute("UPDATE user SET table_id=%s WHERE user_id=%s", (tableId, userId))
         if not sitDownState:
             self.write("{'status':'00'}")
             logging.info("write {'status':'00'}")
@@ -76,7 +77,7 @@ class SitDownHandler(tornado.web.RequestHandler):
             if len(GameRoomSocketCache[tableId]) == 0:
                 del GameRoomSocketCache[tableId]
 
-        #刷新相关房间的用户页面
+        # 刷新相关房间的用户页面
         if tableId in GameRoomSocketCache.keys():
             for key in GameRoomSocketCache[tableId].keys():
                 GameRoomSocketCache[tableId][key].refreshGameRoom()
