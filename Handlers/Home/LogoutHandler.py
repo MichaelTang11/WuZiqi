@@ -1,7 +1,7 @@
 import json
 import logging
 import tornado.web
-from GlobalValue.GlobalValue import HomeSocketCache,GameRoomSocketCache
+from GlobalValue.GlobalValue import GameRoomSocketCache
 from Methods.ConnectDB import cursor
 from Methods.ExitGameRoom import exitGameRoom
 from Methods.RefreshRealtiveFriendList import refreshRelativeFriendList
@@ -14,9 +14,9 @@ class LogoutHandler(tornado.web.RequestHandler):
             returnJson = {"status": "00"}
             self.write(json.dumps(returnJson, ensure_ascii=False))
         else:
-            userId=userId.decode("utf-8")
+            userId = userId.decode("utf-8")
             cursor.execute("UPDATE user SET login_state=0,state=0 WHERE user_id=%s", userId)
-            #查看是否关闭了GameRoom页面如果没有关闭则发送websocket关闭
+            # 查看是否关闭了GameRoom页面如果没有关闭则发送websocket关闭
             cursor.execute("SELECT * FROM user WHERE user_id=%s", userId)
             row = cursor.fetchone()
             tableId = row["table_id"]

@@ -1,10 +1,10 @@
 import logging
 import tornado.web
-from GlobalValue.GlobalValue import GameRoomSocketCache, HomeSocketCache
+import json
+from GlobalValue.GlobalValue import GameRoomSocketCache
 from GlobalValue.GlobalValue import GameRoomCache
 from Methods.JudgeWin import judgeWin
 from Methods.ConnectDB import cursor
-import json
 
 from Methods.RefreshRealtiveFriendList import refreshRelativeFriendList
 
@@ -54,10 +54,10 @@ class PutChessHandler(tornado.web.RequestHandler):
             cursor.execute(
                 "UPDATE game_table_info SET left_ready_state=0,right_ready_state=0,game_state=0 WHERE table_id=%s",
                 tableId)
-            #将玩家状态改为在线，并通知其在线好友刷新friendList
+            # 将玩家状态改为在线，并通知其在线好友刷新friendList
             cursor.execute("UPDATE user SET state=1 WHERE user_id=%s OR user_id=%s", (userId, anotherPlayerId))
             # 刷新相关好友列表
-            refreshRelativeFriendList([userId,anotherPlayerId])
+            refreshRelativeFriendList([userId, anotherPlayerId])
         # 和棋
         if len(roomCache["stepRecord"]) == 196:
             drawFlag = True

@@ -9,9 +9,9 @@ class ExitGameRoomHandler(tornado.web.RequestHandler):
         userId = self.get_secure_cookie("userId")
         if userId is None:
             return
-        userId=userId.decode("utf-8")
+        userId = userId.decode("utf-8")
         cursor.execute("SELECT * FROM user WHERE user_id=%s", userId)
         row = cursor.fetchone()
         tableId = row["table_id"]
-        exitGameRoom(userId,tableId)
+        exitGameRoom(userId, tableId)
         logging.info(userId + "退出游戏房间!")

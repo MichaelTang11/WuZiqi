@@ -8,7 +8,6 @@ import json
 class GetGameRoomDataHandler(tornado.web.RequestHandler):
     def get(self, *args, **kwargs):
         userId = self.get_secure_cookie("userId").decode("utf-8")
-
         cursor.execute("SELECT * FROM user WHERE user_id=%s", userId)
         row = cursor.fetchone()
         tableId = row["table_id"]

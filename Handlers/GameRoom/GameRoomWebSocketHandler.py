@@ -1,5 +1,5 @@
 import tornado.websocket
-from GlobalValue.GlobalValue import GameRoomSocketCache, GameRoomCache, HomeSocketCache
+from GlobalValue.GlobalValue import GameRoomSocketCache, GameRoomCache
 from Methods.ConnectDB import cursor
 import logging
 import json
@@ -10,7 +10,7 @@ from Methods.RefreshRealtiveFriendList import refreshRelativeFriendList
 class GameRoomWebSocketHandler(tornado.websocket.WebSocketHandler):
     def open(self, *args, **kwargs):
         userId = self.get_secure_cookie("userId").decode("utf-8")
-        cursor.execute("SELECT * FROM user WHERE user_id=%s",userId)
+        cursor.execute("SELECT * FROM user WHERE user_id=%s", userId)
         row = cursor.fetchone()
         tableId = row["table_id"]
         if tableId in GameRoomSocketCache.keys():
@@ -44,13 +44,13 @@ class GameRoomWebSocketHandler(tornado.websocket.WebSocketHandler):
             row = cursor.fetchone()
             tableId = row["table_id"]
             for key in GameRoomSocketCache[tableId].keys():
-                if key!=userId:
+                if key != userId:
                     returnData = {}
                     returnData["type"] = "08"
-                    returnData["data"]=data["message"]
+                    returnData["data"] = data["message"]
                     GameRoomSocketCache[tableId][key].write_message(json.dumps(returnData, ensure_ascii=False))
 
-        if data["type"]=="02":
+        if data["type"] == "02":
             userId = self.get_secure_cookie("userId").decode("utf-8")
             cursor.execute("SELECT * FROM user WHERE user_id=%s", userId)
             row = cursor.fetchone()
@@ -61,7 +61,7 @@ class GameRoomWebSocketHandler(tornado.websocket.WebSocketHandler):
                 if key != userId:
                     anotherPlayerId = key
                     break
-            if data["result"]=="agree":
+            if data["result"] == "agree":
                 roomCache["playerState"][userId]["myTurn"] = False
                 roomCache["playerState"][anotherPlayerId]["myTurn"] = False
                 roomCache["totalGameTime"] += 1
@@ -76,12 +76,11 @@ class GameRoomWebSocketHandler(tornado.websocket.WebSocketHandler):
                 cursor.execute("UPDATE user SET state=1 WHERE user_id=%s OR user_id=%s", (userId, anotherPlayerId))
                 # 刷新相关好友列表
                 refreshRelativeFriendList([userId, anotherPlayerId])
-                 # 提醒前端和棋
+                # 提醒前端和棋
                 for key in GameRoomSocketCache[tableId]:
                     GameRoomSocketCache[tableId][key].gameDraw()
             else:
                 GameRoomSocketCache[tableId][anotherPlayerId].denyDraw()
-
 
     def refreshGameRoom(self):
         logging.info("刷新GameRoom")
@@ -126,8 +125,8 @@ class GameRoomWebSocketHandler(tornado.websocket.WebSocketHandler):
         returnData = {"type": "07"}
         self.write_message(json.dumps(returnData, ensure_ascii=False))
 
-    def giveUp(self,playerId):
-        logging.info(playerId+"投降！")
+    def giveUp(self, playerId):
+        logging.info(playerId + "投降！")
         returnData = {"type": "09", "looserId": playerId}
         self.write_message(json.dumps(returnData, ensure_ascii=False))
 

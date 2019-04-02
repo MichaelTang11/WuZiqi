@@ -1,4 +1,3 @@
-import logging
 import tornado.web
 from Methods.ConnectDB import cursor
 from Methods.InitGame import initGame

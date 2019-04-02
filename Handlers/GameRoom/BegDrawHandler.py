@@ -1,8 +1,7 @@
 import logging
 import tornado.web
-from GlobalValue.GlobalValue import GameRoomCache, HomeSocketCache, GameRoomSocketCache
+from GlobalValue.GlobalValue import GameRoomCache, GameRoomSocketCache
 from Methods.ConnectDB import cursor
-import json
 
 
 class BegDrawHandler(tornado.web.RequestHandler):
@@ -16,5 +15,5 @@ class BegDrawHandler(tornado.web.RequestHandler):
             if key != userId:
                 anotherPlayerId = key
                 break
-        logging.info(userId+"请求和棋")
+        logging.info(userId + "请求和棋")
         GameRoomSocketCache[tableId][anotherPlayerId].begDraw()

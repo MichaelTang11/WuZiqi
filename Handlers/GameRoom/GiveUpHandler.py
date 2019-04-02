@@ -1,10 +1,6 @@
-import logging
 import tornado.web
-
 from GlobalValue.GlobalValue import GameRoomCache, HomeSocketCache, GameRoomSocketCache
-from Methods.GetGameRoomData import getGameRoomData
 from Methods.ConnectDB import cursor
-import json
 
 
 class GiveUpHandler(tornado.web.RequestHandler):
