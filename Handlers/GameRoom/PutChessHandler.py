@@ -1,11 +1,11 @@
 import logging
+import time
 import tornado.web
 import json
 from GlobalValue.GlobalValue import GameRoomSocketCache
 from GlobalValue.GlobalValue import GameRoomCache
 from Methods.JudgeWin import judgeWin
 from Methods.ConnectDB import cursor
-
 from Methods.RefreshRealtiveFriendList import refreshRelativeFriendList
 
 
@@ -29,6 +29,7 @@ class PutChessHandler(tornado.web.RequestHandler):
         # 对GameRoomCache进行更改
         roomCache["playerState"][userId]["myTurn"] = False
         roomCache["playerState"][anotherPlayerId]["myTurn"] = True
+        roomCache["playerState"][anotherPlayerId]["chessTime"] = time.time()*1000
         roomCache["stepRecord"].append({"playerId": userId,
                                         "chessType": chessType,
                                         "point": [x, y]

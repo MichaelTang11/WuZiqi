@@ -13,5 +13,5 @@ class ExitGameRoomHandler(tornado.web.RequestHandler):
         cursor.execute("SELECT * FROM user WHERE user_id=%s", userId)
         row = cursor.fetchone()
         tableId = row["table_id"]
-        exitGameRoom(userId, tableId)
+        exitGameRoom(userId, str(tableId))
         logging.info(userId + "退出游戏房间!")

@@ -3,6 +3,8 @@ from Handlers.GameRoom.ExitGameRoomHandler import ExitGameRoomHandler
 from Handlers.GameRoom.GameRoomWebSocketHandler import GameRoomWebSocketHandler
 from Handlers.GameRoom.GetGameRoomDataHandler import GetGameRoomDataHandler
 from Handlers.GameRoom.GiveUpHandler import GiveUpHandler
+from Handlers.GameRoom.OnTimeDrawHandler import OnTimeDrawHandler
+from Handlers.GameRoom.OverTimeHandler import OverTimeHandler
 from Handlers.GameRoom.PutChessHandler import PutChessHandler
 from Handlers.GameRoom.ReadyHandler import ReadyHandler
 from Handlers.Home.ActiveMessageFriendListItemHandler import ActiveMessageFriendListItemHandler
@@ -80,6 +82,8 @@ url = {
     (r'/PutChess', PutChessHandler),
     (r'/GiveUp', GiveUpHandler),
     (r'/BegDraw', BegDrawHandler),
+    (r'/OverTime', OverTimeHandler),
+    (r'/OnTimeDraw', OnTimeDrawHandler),
     # 测试路由
     (r'/Test', TestHandler)
 
