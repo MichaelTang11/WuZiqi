@@ -5,9 +5,9 @@ from Methods.RefreshRealtiveFriendList import refreshRelativeFriendList
 
 
 def exitGameRoom(userId,tableId):
-    cursor.execute("UPDATE game_table_info SET left_player_id=NULL WHERE table_id=%s AND left_player_id=%s",
+    cursor.execute("UPDATE game_table_info SET left_player_id=NULL,left_ready_state=0 WHERE table_id=%s AND left_player_id=%s",
                    (tableId, userId))
-    cursor.execute("UPDATE game_table_info SET right_player_id=NULL WHERE table_id=%s AND right_player_id=%s",
+    cursor.execute("UPDATE game_table_info SET right_player_id=NULL,right_ready_state=0 WHERE table_id=%s AND right_player_id=%s",
                    (tableId, userId))
     # 获取gameState
     cursor.execute("SELECT * FROM game_table_info WHERE table_id=%s", tableId)
