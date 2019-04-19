@@ -26,17 +26,16 @@ class SitDownHandler(tornado.web.RequestHandler):
             cursor.execute("SELECT * FROM game_table_info WHERE left_player_id=%s OR right_player_id=%s",
                            (userId, userId))
             row = cursor.fetchone()
-            if row["game_state"] == 1 or (row["left_ready_state"] == 1 and str(row["left_player_id"]) == userId) or (
-                    row["right_ready_state"] == 1 and str(row["right_player_id"]) == userId):
+            if row["game_state"] == 1:
                 self.write("{'status':'01'}")
                 # 已经处于游戏状态无法换桌
                 logging.info("write {'status':'01'}")
                 return
             # 将旧卓的信息删除
             if str(row["left_player_id"]) == userId:
-                cursor.execute("UPDATE game_table_info SET left_player_id=NULL WHERE table_id=%s", oldTableId)
+                cursor.execute("UPDATE game_table_info SET left_player_id=NULL,left_ready_state=0 WHERE table_id=%s", oldTableId)
             else:
-                cursor.execute("UPDATE game_table_info SET right_player_id=NULL WHERE table_id=%s", oldTableId)
+                cursor.execute("UPDATE game_table_info SET right_player_id=NULL,right_ready_state=0 WHERE table_id=%s", oldTableId)
 
         if position == "left":
             cursor.execute("UPDATE game_table_info SET left_player_id=%s WHERE table_id=%s ", (userId, tableId))
