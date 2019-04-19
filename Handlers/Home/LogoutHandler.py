@@ -23,8 +23,18 @@ class LogoutHandler(tornado.web.RequestHandler):
             if tableId in GameRoomSocketCache.keys():
                 if userId in GameRoomSocketCache[tableId].keys():
                     GameRoomSocketCache[tableId][userId].closeWindow()
-                    exitGameRoom(userId, tableId)
                     del GameRoomSocketCache[tableId][userId]
+                exitGameRoom(userId, tableId)
+            else:
+                if tableId is not None:
+                    exitGameRoom(userId, tableId)
+            # if tableId in GameRoomSocketCache.keys():
+            #     if userId in GameRoomSocketCache[tableId].keys():
+            #         GameRoomSocketCache[tableId][userId].closeWindow()
+            #         exitGameRoom(userId, tableId)
+            #         del GameRoomSocketCache[tableId][userId]
+
+
 
             # 刷新相关好友列表
             refreshRelativeFriendList([userId])

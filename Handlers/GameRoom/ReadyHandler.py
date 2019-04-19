@@ -26,7 +26,7 @@ class ReadyHandler(tornado.web.RequestHandler):
             if readyState == "0":
                 cursor.execute("UPDATE game_table_info SET right_ready_state=1 WHERE table_id=%s", tableId)
             else:
-                cursor.execute("UPDATE game_table_info SET right_ready_state=1 WHERE table_id=%s", tableId)
+                cursor.execute("UPDATE game_table_info SET right_ready_state=0 WHERE table_id=%s", tableId)
         returnData = {"status": "00"}
         self.write(json.dumps(returnData, ensure_ascii=False))
         # 通知房间内的玩家刷新player-status

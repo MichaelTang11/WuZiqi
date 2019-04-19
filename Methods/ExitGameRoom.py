@@ -13,33 +13,33 @@ def exitGameRoom(userId,tableId):
     cursor.execute("SELECT * FROM game_table_info WHERE table_id=%s", tableId)
     row = cursor.fetchone()
     gameState = row["game_state"]
+    # 获取anotherPlayerId
     anotherPlayerId = None
-    escapeFlag = False
-    # 判断tableId是否存在于GameRoomCache中
-    if tableId in GameRoomCache.keys():
-        # 获取anotherPlayerId
-        roomCache = GameRoomCache[tableId]
-        for key in roomCache["playerState"].keys():
+    if gameState == 1:
+        for key in GameRoomCache[tableId]["playerState"].keys():
             if key != userId:
                 anotherPlayerId = key
                 break
+    escapeFlag = False
+    if gameState == 1:
+        # 玩家逃离对局，进行相应数据库操作
+        escapeFlag = True
+        cursor.execute(
+            "UPDATE game_table_info SET left_ready_state=0,right_ready_state=0,game_state=0 WHERE table_id=%s",
+            tableId)
+        cursor.execute(
+            "UPDATE user_info SET win_time=win_time+1,game_time=game_time+1 WHERE user_id=%s",
+            anotherPlayerId)
+        cursor.execute(
+            "UPDATE user_info SET game_time=game_time+1 WHERE user_id=%s",
+            userId)
+        GameRoomSocketCache[tableId][anotherPlayerId].escapeGame()
+        # 刷新相关好友列表
+        refreshRelativeFriendList([userId, anotherPlayerId])
+    # 判断tableId是否存在于GameRoomCache中
+    if tableId in GameRoomCache.keys():
         # 删除缓存中的对局信息
         del GameRoomCache[tableId]
-        if gameState == 1:
-            # 玩家逃离对局，进行相应数据库操作
-            escapeFlag = True
-            cursor.execute(
-                "UPDATE game_table_info SET left_ready_state=0,right_ready_state=0,game_state=0 WHERE table_id=%s",
-                tableId)
-            cursor.execute(
-                "UPDATE user_info SET win_time=win_time+1,game_time=game_time+1 WHERE user_id=%s",
-                anotherPlayerId)
-            cursor.execute(
-                "UPDATE user_info SET game_time=game_time+1 WHERE user_id=%s",
-                userId)
-            GameRoomSocketCache[tableId][anotherPlayerId].escapeGame()
-            # 刷新相关好友列表
-            refreshRelativeFriendList([userId, anotherPlayerId])
     if not escapeFlag:
         if tableId in GameRoomSocketCache.keys():
             for key in GameRoomSocketCache[tableId].keys():
